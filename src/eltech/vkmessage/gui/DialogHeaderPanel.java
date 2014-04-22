@@ -35,8 +35,7 @@ public class DialogHeaderPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		DialogPanelModel model = new DialogPanelModel(this.dialog);
-		DialogPanel dialogPanel = new DialogPanel(model);
+		DialogPanel dialogPanel = new DialogPanel(this.dialog);
 		Application.INSTANCE.getMessengerFrame().setActiveDialogPanel(dialogPanel);
 	}
 

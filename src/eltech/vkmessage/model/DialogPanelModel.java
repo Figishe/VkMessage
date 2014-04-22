@@ -11,11 +11,17 @@ import eltech.vkmessage.connection.VkApiMethodException;
 import eltech.vkmessage.connection.VkNoConnectionExcepion;
 import eltech.vkmessage.main.Application;
 
+/**
+ * DialogPanelModel represents the model of dialog shown on gui, 
+ * with some actual messages uploaded
+ *
+ */
+
 public class DialogPanelModel {
 	private VkDialog dialog;
 	private List<VkMessage> messages;
 	
-	private final int MESSAGES_AMOUNT_DEFAULT = 45;
+	private final int MESSAGES_AMOUNT_DEFAULT = 10;
 
 	public DialogPanelModel(VkDialog dialog) {
 		this.dialog = dialog;

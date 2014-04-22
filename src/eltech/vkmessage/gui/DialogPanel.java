@@ -1,11 +1,13 @@
 package eltech.vkmessage.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,34 +21,24 @@ import eltech.vkmessage.model.VkDialog;
 import eltech.vkmessage.model.VkMessage;
 
 public class DialogPanel extends JPanel {
-	
-	private DialogPanelModel model;
-	private List<MessagePanel> messagePanels;
-	
 
-	public DialogPanel(DialogPanelModel model) {
+	private DialogMessagesPanel msgPanel;
+	
+	public DialogPanel(VkDialog dialog) {
 		super();
-		this.model = model;
-		this.setLayout(new GridLayout(0, 1));
-		this.messagePanels = new LinkedList<MessagePanel>();
+		this.msgPanel = new DialogMessagesPanel(new DialogPanelModel(dialog));
+		this.setLayout(new BorderLayout());
+		
+		// adding UI components - messages panel and input component for writing new messages
+		// TODO: add to jscrollPane
+		this.add(msgPanel, BorderLayout.CENTER);
+		this.add(new NewMessagePanel(this), BorderLayout.SOUTH);
+		
 		onPanelOpened();
 	}
 	
-	public DialogPanelModel getModel() {
-		return model;
-	}
-
-	public void update() {
-		
-	}
-	
 	private void onPanelOpened() {
-		this.add(new NewMessagePanel(this));
-		model.uploadDefaultMessages();
-		List<VkMessage> messages = model.getMessages();
-		for (VkMessage msg : messages) {
-			this.add(new MessagePanel(msg));
-		}
+		msgPanel.update();
 		this.repaint();
 		this.updateUI();
 	}
