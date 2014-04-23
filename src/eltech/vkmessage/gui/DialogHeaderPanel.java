@@ -7,17 +7,30 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import eltech.vkmessage.connection.VkApiMethodException;
+import eltech.vkmessage.connection.VkConnectionManager;
+import eltech.vkmessage.connection.VkNoConnectionExcepion;
 import eltech.vkmessage.main.Application;
 import eltech.vkmessage.model.DialogPanelModel;
 import eltech.vkmessage.model.VkDialog;
+import eltech.vkmessage.model.VkPerson;
 
 
 
 public class DialogHeaderPanel extends JPanel implements MouseListener {
 	private VkDialog dialog;
+	private String uiTitle;
 	
 	public DialogHeaderPanel(VkDialog dialog) {
 		this.dialog = dialog;
+		if (dialog.isChat())
+			this.uiTitle = dialog.getLastMessage().getTitle();
+		else
+			this.uiTitle = getDialogTitleByUserId(dialog.getUserId()); // set name + surname as title 
+			
 		this.addMouseListener(this);
 		this.setPreferredSize(new Dimension(300, 80));
 	}
@@ -29,7 +42,7 @@ public class DialogHeaderPanel extends JPanel implements MouseListener {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawString(dialog.getLastMessage().getTitle(), 5, 10);
+		g.drawString(this.uiTitle, 5, 10);
 		g.drawString(dialog.getLastMessage().getBody(), 5, 30);
 	}
 
@@ -57,5 +70,21 @@ public class DialogHeaderPanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
+	}
+	
+	private String getDialogTitleByUserId(int userId) {
+		try {
+			JSONObject response = Application.INSTANCE.getConnectionManager().getConnection().executeApiMethod("users.get", "user_ids="  + userId);
+			VkPerson person = new VkPerson(response.getJSONArray("response").getJSONObject(0));
+			return person.getFirstName() + " " + person.getLastName(); 
+		} catch (VkApiMethodException e) {
+			e.printStackTrace();
+		} catch (VkNoConnectionExcepion e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return "Little Gnome";
 	}
 }

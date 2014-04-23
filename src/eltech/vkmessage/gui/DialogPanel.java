@@ -43,7 +43,7 @@ public class DialogPanel extends JPanel {
 			public void run() {
 				while (true) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						// NOP
 					}
