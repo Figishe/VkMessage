@@ -19,8 +19,9 @@ public class MessengerFrame extends JFrame {
 	
 	public MessengerFrame() {
 		super();
-		this.setSize(640, 480);
-		this.setLocation(300, 200);
+		this.setSize(1000, 500);
+		this.setTitle("VkMessage");
+		this.setLocation(200, 100);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(0, 2));

@@ -24,6 +24,7 @@ public class NewMessagePanel extends JPanel implements ActionListener {
 	private DialogPanel dialogPanel;
 	
 	public NewMessagePanel(DialogPanel dialogPanel) {
+		//this.setPreferredSize(new Dimension(350, 40));
 		messageInputField = new JTextField();
 		messageInputField.setPreferredSize(new Dimension(300, 30));
 		sendButton = new JButton("Отправить");

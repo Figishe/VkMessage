@@ -23,20 +23,26 @@ import eltech.vkmessage.model.VkMessage;
 public class DialogPanel extends JPanel {
 
 	private DialogMessagesPanel msgPanel;
+	private DialogPanelModel model;
 	
 	public DialogPanel(VkDialog dialog) {
 		super();
-		this.msgPanel = new DialogMessagesPanel(new DialogPanelModel(dialog));
+		this.model = new DialogPanelModel(dialog);
+		this.msgPanel = new DialogMessagesPanel(model);
 		this.setLayout(new BorderLayout());
 		
 		// adding UI components - messages panel and input component for writing new messages
-		// TODO: add to jscrollPane
+		// TODO: add to jscrollPane                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		this.add(msgPanel, BorderLayout.CENTER);
 		this.add(new NewMessagePanel(this), BorderLayout.SOUTH);
 		
 		onPanelOpened();
 	}
-	
+
+	public DialogPanelModel getModel() {
+		return model;
+	}
+
 	private void onPanelOpened() {
 		msgPanel.update();
 		this.repaint();

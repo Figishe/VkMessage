@@ -21,7 +21,7 @@ public class DialogPanelModel {
 	private VkDialog dialog;
 	private List<VkMessage> messages;
 	
-	private final int MESSAGES_AMOUNT_DEFAULT = 10;
+	private final int MESSAGES_AMOUNT_DEFAULT = 15;
 
 	public DialogPanelModel(VkDialog dialog) {
 		this.dialog = dialog;
