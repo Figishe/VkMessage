@@ -24,6 +24,7 @@ public class DialogPanel extends JPanel {
 
 	private DialogMessagesPanel msgPanel;
 	private DialogPanelModel model;
+	private Thread threadUpdater;
 	
 	public DialogPanel(VkDialog dialog) {
 		super();
@@ -33,10 +34,37 @@ public class DialogPanel extends JPanel {
 		
 		// adding UI components - messages panel and input component for writing new messages
 		// TODO: add to jscrollPane                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-		this.add(msgPanel, BorderLayout.CENTER);
+		this.add(new JScrollPane(msgPanel), BorderLayout.CENTER);
 		this.add(new NewMessagePanel(this), BorderLayout.SOUTH);
 		
+		Runnable updaterLogic = new Runnable() {
+			
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// NOP
+					}
+					onUpdate();
+				}
+			}
+		};
+		threadUpdater = new Thread(updaterLogic);
+		threadUpdater.setDaemon(true);
+		threadUpdater.start();
+		
 		onPanelOpened();
+	}
+
+	public void close() {
+		onPanelClosed();
+	}
+	
+	
+	private void onPanelClosed() {
+		threadUpdater.stop();
 	}
 
 	public DialogPanelModel getModel() {
@@ -44,6 +72,14 @@ public class DialogPanel extends JPanel {
 	}
 
 	private void onPanelOpened() {
+		msgPanel.update();
+		this.repaint();
+		this.updateUI();
+	}
+	
+	
+	
+	private void onUpdate() {
 		msgPanel.update();
 		this.repaint();
 		this.updateUI();

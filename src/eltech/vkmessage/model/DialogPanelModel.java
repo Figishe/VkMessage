@@ -37,8 +37,11 @@ public class DialogPanelModel {
 	}
 
 	public void updateMessages() {
+		this.messages.clear();
 		uploadDefaultMessages();
 	}
+	
+	
 	
 	public void uploadDefaultMessages() {
 		String methodArgs = "count=" + MESSAGES_AMOUNT_DEFAULT;

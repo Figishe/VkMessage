@@ -39,4 +39,19 @@ public class MessagePanel extends JPanel {
 		
 		g.drawString(message.getBody(), 15, 15);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (! (obj instanceof MessagePanel) )
+			return false;
+		MessagePanel panel = (MessagePanel) obj;
+		if (panel.message.equals(this.message)) 
+			return true;
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.message.hashCode();
+	}
 }

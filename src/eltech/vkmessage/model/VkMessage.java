@@ -93,5 +93,17 @@ public class VkMessage {
 	public boolean isOutcoming() {
 		return !isIncoming();
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (! (obj instanceof VkMessage))
+			return false;
+		VkMessage msg = (VkMessage) obj;
+		return (msg.body.equals(this.body)) && (msg.id == this.id) && (msg.userId == this.userId);
+	}
+	
+	@Override
+	public int hashCode() {
+		return body.hashCode();
+	}
 }

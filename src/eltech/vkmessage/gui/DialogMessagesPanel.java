@@ -29,20 +29,23 @@ public class DialogMessagesPanel extends JPanel {
 		this.messagePanels = new LinkedList<MessagePanel>();
 	}
 	
-	private void addMessage(VkMessage message) {
-		MessagePanel msgPanel = new MessagePanel(message);
-		messagePanels.add(msgPanel);
-		this.add(msgPanel);
+	private void addMessageHeader(MessagePanel messagePanel) {
+		messagePanels.add(messagePanel);
+		this.add(messagePanel);
 	}
 	
 	public void update() {
 		model.updateMessages();
 		
+		
 		List<VkMessage> messages = model.getMessages();
 
 		for (int i = messages.size() - 1; i >= 0; i--) {
 			VkMessage msg = messages.get(i);
-			addMessage(msg);
+			MessagePanel msgPanel = new MessagePanel(msg);
+			if (!messagePanels.contains(msgPanel)) {
+				addMessageHeader(msgPanel);
+			}
 		}	
 	}
 	

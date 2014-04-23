@@ -15,7 +15,7 @@ import eltech.vkmessage.main.Application;
 public class MessengerFrame extends JFrame {
 
 	private DialogListPanel dialogListPanel;
-	private JPanel activeDialogPanelHolder = new JPanel();
+	private DialogPanelHolder activeDialogPanelHolder = new DialogPanelHolder();
 	
 	public MessengerFrame() {
 		super();
@@ -37,18 +37,47 @@ public class MessengerFrame extends JFrame {
 	}
 	
 	public void setActiveDialogPanel(DialogPanel panel) {
-		this.activeDialogPanelHolder.removeAll();
+		DialogPanel activeDialogPanel = getActiveDialogPanel();
+		if (activeDialogPanel != null) {
+			activeDialogPanel.close();
+		}
 		if (panel == null) {
 			JPanel noActiveDialog = new JPanel();
-			noActiveDialog.add(new JLabel("Ќичего не открыто из диалогов..."));
-			this.activeDialogPanelHolder.add(noActiveDialog);
+			noActiveDialog.add(new JLabel("¬ыберите диалог из списка слева, чтобы начать общение"));
+			this.activeDialogPanelHolder.setDefaultPanel(noActiveDialog);
 		} else {
-			this.activeDialogPanelHolder.add(new JScrollPane(panel));
+			this.activeDialogPanelHolder.setPanel(panel);
 			activeDialogPanelHolder.updateUI();
 		}
 	}
 	
 	public DialogPanel getActiveDialogPanel() {
-		return (DialogPanel) this.activeDialogPanelHolder.getComponent(0);
+		try {
+			return activeDialogPanelHolder.getPanel();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+		
+	}
+}
+
+class DialogPanelHolder extends JPanel  {
+	private DialogPanel panel = null;
+	private JPanel defaultPanel = null;
+	
+	public void setDefaultPanel(JPanel panel) {
+		this.defaultPanel = panel;
+		this.removeAll();
+		this.add(panel);
+	}
+	
+	public void setPanel(DialogPanel panel) {
+		this.panel = panel;
+		this.removeAll();
+		this.add(panel);
+	}
+	
+	public DialogPanel getPanel() {
+		return panel;
 	}
 }
