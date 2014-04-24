@@ -26,13 +26,12 @@ public class DialogHeaderPanel extends JPanel implements MouseListener {
 	
 	public DialogHeaderPanel(VkDialog dialog) {
 		this.dialog = dialog;
-		if (dialog.isChat())
-			this.uiTitle = dialog.getLastMessage().getTitle();
-		else
-			this.uiTitle = getDialogTitleByUserId(dialog.getUserId()); // set name + surname as title 
+		
+		setUiTitle(dialog.getLastMessage().getTitle());
 			
 		this.addMouseListener(this);
 		this.setPreferredSize(new Dimension(300, 80));
+		
 	}
 	
 	public VkDialog getDialog() {
@@ -71,7 +70,11 @@ public class DialogHeaderPanel extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		
 	}
+	public void setUiTitle(String title) {
+		this.uiTitle = title;
+	}
 	
+	@Deprecated
 	private String getDialogTitleByUserId(int userId) {
 		try {
 			JSONObject response = Application.INSTANCE.getConnectionManager().getConnection().executeApiMethod("users.get", "user_ids="  + userId);

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -16,7 +18,7 @@ import eltech.vkmessage.connection.VkNoConnectionExcepion;
 import eltech.vkmessage.main.Application;
 import eltech.vkmessage.model.VkDialog;
 
-public class NewMessagePanel extends JPanel implements ActionListener {
+public class NewMessagePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private JTextField messageInputField;
 	private JButton sendButton;
@@ -27,9 +29,11 @@ public class NewMessagePanel extends JPanel implements ActionListener {
 		//this.setPreferredSize(new Dimension(350, 40));
 		messageInputField = new JTextField();
 		messageInputField.setPreferredSize(new Dimension(300, 30));
+		messageInputField.addKeyListener(this);
 		sendButton = new JButton("Отправить");
 		sendButton.setActionCommand("send");
 		sendButton.addActionListener(this);
+		sendButton.setMaximumSize(new Dimension(100, 30));
 		this.dialogPanel = dialogPanel;
 		
 		this.setLayout(new FlowLayout());
@@ -91,5 +95,20 @@ public class NewMessagePanel extends JPanel implements ActionListener {
 	
 	private void clearMessage() {
 		messageInputField.setText("");
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// sending message on ENTER
+		if ( (e.getKeyCode() == KeyEvent.VK_ENTER) && (messageInputField.hasFocus()) )
+			onMessageSent(getMessage());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 }
